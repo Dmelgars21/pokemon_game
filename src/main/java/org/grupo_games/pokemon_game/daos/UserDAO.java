@@ -32,14 +32,16 @@ public class UserDAO extends BaseDAO {
     
     public Entrenador validarUsuario(String username) {
         String query = "SELECT * FROM Usuario WHERE username = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        
+        try (Connection connection =obtenerConexion();
+            PreparedStatement stmt = connection.prepareStatement(query)){
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 int entrenadorId = rs.getInt("entrenador_id");
                 // Aquí debes cargar el entrenador correspondiente
                 EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
-                return entrenadorDAO.obtenerEntrenadorPorId(entrenadorId);
+                return entrenadorDAO.obtenerEntrenadorId(entrenadorId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,12 +51,13 @@ public class UserDAO extends BaseDAO {
     
     public boolean crearUsuario(String username) {
         String query = "INSERT INTO Usuario (username) VALUES (?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (Connection connection =obtenerConexion();
+                PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
-            return stmt.executeUpdate() > 0; // Retorna true si se creó
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Error al crear usuario
+            return false;
         }
     }
 

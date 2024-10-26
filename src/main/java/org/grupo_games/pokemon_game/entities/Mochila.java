@@ -15,22 +15,17 @@ public class Mochila {
         //this.nombre = nombre;
         this.items = new ArrayList<>();
         this.limite = 10;
-        
-        
-        try {
-            MochilaDAO mochiladb = new MochilaDAO();
-            this.mochilaId = mochiladb.crearMochilaBD(entrenadorId, limite);
-        } catch (SQLException e) {
-            System.err.println("Error al crear la mochila en la base de datos: " + e.getMessage());
-            this.mochilaId = -1; // Valor por defecto en caso de error
-        }
+
+
+        MochilaDAO mochiladb = new MochilaDAO();
+        this.mochilaId = mochiladb.crearMochilaBD(entrenadorId, limite);
     }
 
     public ArrayList<Item> getItems() {
         return items;
     }
    
-    public void agregarItem(Item item)throws SQLException{
+    public void agregarItem(Item item) throws SQLException{
         if(items.size()<limite){
             items.add(item);
             System.out.println("Has añadido un "+ item.getNombre()+ " a la mochila!");

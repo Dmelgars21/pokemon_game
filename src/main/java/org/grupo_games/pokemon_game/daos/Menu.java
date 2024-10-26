@@ -6,6 +6,7 @@ package org.grupo_games.pokemon_game.daos;
 import org.grupo_games.pokemon_game.entities.Mochila;
 import org.grupo_games.pokemon_game.entities.Item;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -17,7 +18,7 @@ public class Menu {
     boolean salir =false;
     private Mochila mochila;
     
-    public Menu(int entrenadorId){
+    public Menu(int entrenadorId) throws SQLException {
         this.mochila = new Mochila(entrenadorId);//inicializar mochila
     
     }
