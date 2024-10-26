@@ -98,15 +98,6 @@ CREATE TABLE RegistroEvolucion
     FOREIGN KEY (especie_destino_id) REFERENCES Especie (id)
 );
 
-DELETE
-FROM Usuario;
-DELETE
-FROM Entrenador;
-
-SELECT *
-FROM Usuario usr
-         INNER JOIN Entrenador ent ON usr.id = ent.usuario_id;
-
 
 INSERT INTO Tipo (nombre)
 VALUES ('Planta');
@@ -321,11 +312,6 @@ ALTER TABLE Pokemon
     DROP FOREIGN KEY pokemon_ibfk_1;
 
 
-show tables;
-DROP DATABASE pokemon_game;
-DESCRIBE Pokemon;
-
-USE pokemon_game;
 CREATE TABLE PiedraEvolutiva
 (
     id           SERIAL PRIMARY KEY,
@@ -336,8 +322,6 @@ CREATE TABLE PiedraEvolutiva
 ALTER TABLE PiedraEvolutiva
     ADD CONSTRAINT unique_nombre UNIQUE (nombre);
 
-DROP TABLE PiedraEvolutiva;
-
 ALTER TABLE PiedraEvolutiva
     DROP COLUMN tipo_pokemon;
 
@@ -346,22 +330,6 @@ ALTER TABLE PiedraEvolutiva
     ADD CONSTRAINT fk_tipo_pokemon
         FOREIGN KEY (tipo_id) REFERENCES tipo (id);
 
-INSERT INTO PiedraEvolutiva (nombre, tipo_id)
-VALUES ('Piedra Trueno', 5);
-
-SELECT *
-FROM PiedraEvolutiva;
-
-
-SELECT pe.nombre as "Piedra"
-FROM Pokemon pk
-         INNER JOIN Especie es ON es.id = pk.especie_id
-         INNER JOIN Tipo tp ON es.tipo_id = tp.id
-         INNER JOIN PiedraEvolutiva pe ON pe.tipo_id = tp.id
-WHERE pk.apodo = "Squirty";
-
-SELECT *
-from Tipo;
 
 INSERT INTO PiedraEvolutiva (nombre, tipo_id)
 VALUES ('Piedra Hoja', 1),     -- Planta
@@ -382,24 +350,6 @@ VALUES ('Piedra Hoja', 1),     -- Planta
        ('Piedra Acero', 16),   -- Acero
        ('Piedra Fantasia', 17); -- Hada
 
-DESCRIBE PiedraEvolutiva;
-DESCRIBE Tipo;
-DESCRIBE Especie;
-DESCRIBE Pokemon;
-SELECT * FROM Pokemon;
-SELECT * FROM Especie;
-SELECT *
-FROM Evolucion;
-SELECT *
-FROM PiedraEvolutiva;
-SELECT *
-FROM Pokemon;
-
-DESCRIBE Evolucion;
-
-DESCRIBE Especie;
-DESCRIBE Tipo;
-
 INSERT INTO Evolucion (especie_origen_id, especie_destino_id)
 VALUES (1, 2),
        (2, 3),
@@ -409,60 +359,6 @@ VALUES (1, 2),
        (8, 9),
        (10, 11);
 
-SELECT
-    E.nombre AS "Especie Origen",
-    ED.nombre AS "Especie Destino"
-FROM Pokemon pk
-         INNER JOIN Especie E ON pk.especie_id = E.id
-         INNER JOIN Evolucion EV ON EV.especie_origen_id = E.id
-         INNER JOIN Especie ED ON EV.especie_destino_id = ED.id
-WHERE E.nombre = "Bulbasaur";
-
-SELECT
-    E.id AS "Especie Origen",
-    ED.id AS "Especie Destino ID"
-FROM Pokemon pk
-         INNER JOIN Especie E ON pk.especie_id = E.id
-         INNER JOIN Evolucion EV ON EV.especie_origen_id = E.id
-         INNER JOIN Especie ED ON EV.especie_destino_id = ED.id
-WHERE E.nombre = "Bulbasaur";
-
-SELECT * FROM Pokemon;
-
-DESCRIBE PiedraEvolutiva;
-SELECT * FROM PiedraEvolutiva;
-
-
--- Obtencion de Piedras evolutivas
-SELECT PE.id, PE.tipo_id, E.nombre
-FROM PiedraEvolutiva PE
-         INNER JOIN Tipo tp ON PE.tipo_id = tp.id
-         INNER JOIN Especie E on tp.id = E.tipo_id
-WHERE PE.nombre = "Piedra Hoja";
-
--- Registro de Evolucion de Pokemon
-SELECT
-    RegistroEvolucion.fecha_evolucion,
-    ED.nombre,
-    EO.nombre,
-    P.apodo,
-    P.id
-FROM RegistroEvolucion
-         INNER JOIN Especie ED on RegistroEvolucion.especie_destino_id = ED.id
-         INNER JOIN Especie EO on RegistroEvolucion.especie_origen_id = EO.id
-         INNER JOIN Pokemon P on RegistroEvolucion.pokemon_id = P.id;
-
-DELETE FROM RegistroEvolucion;
-
--- Verificacion de Evolucion
-SELECT
-    Pokemon.apodo,
-    E.nombre
-FROM Pokemon
-         INNER JOIN Especie E on Pokemon.especie_id = E.id;
-
-Show tables;
-DESCRIBE entrenador;
 CREATE TABLE Mochila (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
@@ -478,11 +374,10 @@ CREATE TABLE Item (
     mochila_id INT,
     FOREIGN KEY (mochila_id) REFERENCES Mochila(id)
 );
-SELECT *FROM Item;
+
 ALTER TABLE Item
    DROP column especificaciones;
-SELECT *FROM Entrenador;
-select * from pokemon;
+
 CREATE TABLE Pokedex (
     id INT PRIMARY KEY AUTO_INCREMENT,
     entrenador_id INT,
@@ -501,7 +396,6 @@ CREATE TABLE UsoItem (
     FOREIGN KEY (item_id) REFERENCES Item(id),
     FOREIGN KEY (entrenador_id) REFERENCES Entrenador(id)
 );
-SELECT * FROM Item;
 CREATE TABLE CategoriaItem (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL); -- Nombre de la categoría, por ejemplo, 'Pokeballs', 'Evolución'
@@ -511,31 +405,97 @@ ALTER TABLE Item
    ADD COLUMN categoria_id INT,
    ADD FOREIGN KEY (categoria_id) REFERENCES CategoriaItem(id);
    show tables;
-SELECT * FROM USUARIO;
+
 INSERT INTO Usuario(username,password) VALUES('dai1','123');
-SELECT * FROM pokedex;
-SELECT* FROM Item;
-SELECT * FROM categoriaitem;
-DESCRIBE categoriaitem;
 
-INSERT INTO categoriaitem(nombre) VALUES 
-('Piedra Hoja'),     -- Planta
-('Piedra Veneno'),   -- Veneno
-('Piedra Fuego'),    -- Fuego
-('Piedra Agua'),     -- Agua
-('Piedra Trueno'),   -- Eléctrico
-('Piedra Normal'),   -- Normal
-('Piedra Voladora'),-- Volador
-('Piedra Bicho'),    -- Bicho
-('Piedra Hielo'),    -- Hielo
-('Piedra Lucha'),   -- Lucha
-('Piedra Psíquica'),-- Psíquico
-('Piedra Tierra'),  -- Tierra
-('Piedra Roca'),    -- Roca
-('Piedra Fantasma'),-- Fantasma
-('Piedra Dragón'),  -- Dragón
-('Piedra Acero'),   -- Acero
-('Piedra Fantasia'); -- Hada
-SELECT * FROM piedraevolutiva;
+# INSERT INTO categoriaitem(nombre) VALUES
+# ('Piedra Hoja'),     -- Planta
+# ('Piedra Veneno'),   -- Veneno
+# ('Piedra Fuego'),    -- Fuego
+# ('Piedra Agua'),     -- Agua
+# ('Piedra Trueno'),   -- Eléctrico
+# ('Piedra Normal'),   -- Normal
+# ('Piedra Voladora'),-- Volador
+# ('Piedra Bicho'),    -- Bicho
+# ('Piedra Hielo'),    -- Hielo
+# ('Piedra Lucha'),   -- Lucha
+# ('Piedra Psíquica'),-- Psíquico
+# ('Piedra Tierra'),  -- Tierra
+# ('Piedra Roca'),    -- Roca
+# ('Piedra Fantasma'),-- Fantasma
+# ('Piedra Dragón'),  -- Dragón
+# ('Piedra Acero'),   -- Acero
+# ('Piedra Fantasia'); -- Hada
 
-SELECT * FROM Item;
+ALTER TABLE categoriaitem
+ RENAME COLUMN id TO id_tipo_categoria;
+
+ALTER TABLE item DROP FOREIGN KEY item_ibfk_2;
+
+ALTER TABLE categoriaitem MODIFY id_tipo_categoria INT;
+
+# ALTER TABLE item
+# ADD CONSTRAINT item_ibfk_2 FOREIGN KEY (id_tipo_categoria) REFERENCES categoriaitem(id_tipo_categoria);
+
+ALTER TABLE item
+RENAME COLUMN categoria_id TO id_tipo_categoria;
+
+# ALTER TABLE Item DROP FOREIGN KEY item_ibfk_2;
+# TRUNCATE TABLE CategoriaItem;
+
+ALTER TABLE item 
+ADD CONSTRAINT item_ibfk_2 FOREIGN KEY (id_tipo_categoria) REFERENCES categoriaitem(id_tipo_categoria);
+
+INSERT INTO CategoriaItem (id_tipo_categoria, nombre) VALUES
+(1, 'Pokeball'),
+(2, 'Piedra Evolutiva');
+
+# ALTER TABLE Item
+# DROP COLUMN mochila_id;
+
+# ALTER TABLE Item
+# DROP FOREIGN KEY item_ibfk_1;
+
+# ALTER TABLE Item
+# DROP COLUMN mochila_id;
+
+INSERT INTO Item (nombre, id_tipo_categoria) VALUES
+('Pokeball', 1),
+('Pokeball Ultra', 1);
+
+INSERT INTO Item (nombre, id_tipo_categoria) VALUES
+('Piedra Hoja',2),     -- Planta
+('Piedra Veneno',2),   -- Veneno
+('Piedra Fuego',2),    -- Fuego
+('Piedra Agua',2),     -- Agua
+('Piedra Trueno',2),   -- Eléctrico
+('Piedra Normal',2),   -- Normal
+('Piedra Voladora',2),-- Volador
+('Piedra Bicho',2),    -- Bicho
+('Piedra Hielo',2),    -- Hielo
+('Piedra Lucha',2),   -- Lucha
+('Piedra Psíquica',2),-- Psíquico
+('Piedra Tierra',2),  -- Tierra
+('Piedra Roca',2),    -- Roca
+('Piedra Fantasma',2),-- Fantasma
+('Piedra Dragón',2),  -- Dragón
+('Piedra Acero',2),   -- Acero
+('Piedra Fantasia',2); -- Hada
+
+ALTER TABLE Mochila
+ADD COLUMN items INT;
+
+INSERT INTO Entrenador (nombre, pueblo_origen,usuario_id) VALUES ('Ash Ketchum', 'Pueblo Paleta', 1);
+
+ALTER TABLE Mochila
+MODIFY COLUMN items INT DEFAULT 0;
+ -- Asignar una mochila al primer entrenador
+INSERT INTO Mochila (entrenador_id, nombre, items) VALUES (1, 'Mochila Principal', 5);
+
+ALTER TABLE Usoitem
+RENAME COLUMN resultado TO cantidad_usada;
+
+ALTER TABLE Usoitem
+MODIFY COLUMN cantidad_usada INT;
+
+INSERT INTO UsoItem (item_id, entrenador_id, cantidad_usada) VALUES (1, 1, 1);
