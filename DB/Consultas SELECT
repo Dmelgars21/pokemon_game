@@ -1,0 +1,60 @@
+-- CONSULTAR USUARIOS
+SELECT *
+FROM Usuario usr
+         INNER JOIN Entrenador ent ON usr.id = ent.usuario_id;
+
+-- PIEDRA EVOLUTIVA
+SELECT *
+FROM PiedraEvolutiva;
+
+
+-- CONSULTAS ANIDADAS
+SELECT
+    E.nombre AS "Especie Origen",
+    ED.nombre AS "Especie Destino"
+FROM Pokemon pk
+         INNER JOIN Especie E ON pk.especie_id = E.id
+         INNER JOIN Evolucion EV ON EV.especie_origen_id = E.id
+         INNER JOIN Especie ED ON EV.especie_destino_id = ED.id
+WHERE E.nombre = "Bulbasaur";
+SELECT
+    E.id AS "Especie Origen",
+    ED.id AS "Especie Destino ID"
+FROM Pokemon pk
+         INNER JOIN Especie E ON pk.especie_id = E.id
+         INNER JOIN Evolucion EV ON EV.especie_origen_id = E.id
+         INNER JOIN Especie ED ON EV.especie_destino_id = ED.id
+WHERE E.nombre = "Bulbasaur";
+
+SELECT * FROM Pokemon;
+
+DESCRIBE PiedraEvolutiva;
+SELECT * FROM PiedraEvolutiva;
+
+
+-- Obtencion de Piedras evolutivas
+SELECT PE.id, PE.tipo_id, E.nombre
+FROM PiedraEvolutiva PE
+         INNER JOIN Tipo tp ON PE.tipo_id = tp.id
+         INNER JOIN Especie E on tp.id = E.tipo_id
+WHERE PE.nombre = "Piedra Hoja";
+
+-- Registro de Evolucion de Pokemon
+SELECT
+    RegistroEvolucion.fecha_evolucion,
+    ED.nombre,
+    EO.nombre,
+    P.apodo,
+    P.id
+FROM RegistroEvolucion
+         INNER JOIN Especie ED on RegistroEvolucion.especie_destino_id = ED.id
+         INNER JOIN Especie EO on RegistroEvolucion.especie_origen_id = EO.id
+         INNER JOIN Pokemon P on RegistroEvolucion.pokemon_id = P.id;
+
+
+-- Verificacion de Evolucion
+SELECT
+    Pokemon.apodo,
+    E.nombre
+FROM Pokemon
+         INNER JOIN Especie E on Pokemon.especie_id = E.id;
