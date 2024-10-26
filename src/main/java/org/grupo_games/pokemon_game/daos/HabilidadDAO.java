@@ -8,7 +8,7 @@
 //
 //public class HabilidadDAO extends BaseDAO {
 //
-//    // Método para insertar una nueva habilidad
+//    // Metodo para insertar una nueva habilidad
 //    public void insertarHabilidad(Habilidad habilidad) throws SQLException {
 //        String query = "INSERT INTO habilidad (nombre, tipo, poder) VALUES (?, ?, ?)";
 //        try (Connection connection = obtenerConexion();
@@ -20,7 +20,7 @@
 //        }
 //    }
 //
-//    // Método para obtener una habilidad por su ID
+//    // Metodo para obtener una habilidad por su ID
 //    public Habilidad obtenerHabilidadPorId(int id) throws SQLException {
 //        String query = "SELECT * FROM habilidad WHERE id = ?";
 //        try (Connection connection = obtenerConexion();
@@ -38,7 +38,7 @@
 //        return null;  // Si no se encuentra la habilidad
 //    }
 //
-//    // Método para obtener todas las habilidades
+//    // Metodo para obtener todas las habilidades
 //    public List<Habilidad> obtenerTodasLasHabilidades() throws SQLException {
 //        List<Habilidad> habilidades = new ArrayList<>();
 //        String query = "SELECT * FROM habilidad";
@@ -56,7 +56,7 @@
 //        return habilidades;
 //    }
 //
-//    // Método para actualizar una habilidad existente
+//    // Metodo para actualizar una habilidad existente
 //    public void actualizarHabilidad(Habilidad habilidad, int id) throws SQLException {
 //        String query = "UPDATE habilidad SET nombre = ?, tipo = ?, poder = ? WHERE id = ?";
 //        try (Connection connection = obtenerConexion();
@@ -69,7 +69,7 @@
 //        }
 //    }
 //
-//    // Método para eliminar una habilidad por su ID
+//    // Metodo para eliminar una habilidad por su ID
 //    public void eliminarHabilidad(int id) throws SQLException {
 //        String query = "DELETE FROM habilidad WHERE id = ?";
 //        try (Connection connection = obtenerConexion();

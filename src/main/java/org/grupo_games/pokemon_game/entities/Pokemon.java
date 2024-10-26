@@ -3,9 +3,11 @@ package org.grupo_games.pokemon_game.entities;
 import org.grupo_games.pokemon_game.daos.EvolucionDAO;
 import org.grupo_games.pokemon_game.daos.PiedraEvolutivaDAO;
 import org.grupo_games.pokemon_game.daos.PokemonDAO;
+import org.grupo_games.pokemon_game.entities.Habilidad;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.lang.Thread;
@@ -18,6 +20,8 @@ public class Pokemon {
     private String especie;
     private Entrenador entrenador;
     private float nivelParaEvolucionar = 10;
+    private ArrayList<Habilidad> habilidades;
+
 
     private int NIVEL_EVOLUCION = 0;
 
@@ -84,7 +88,11 @@ public class Pokemon {
         return apodo;
     }
 
-    // Método para evolucionar por piedra
+    public ArrayList<Habilidad> getHabilidades() {
+        return this.habilidades;
+    }
+
+    // Metodo para evolucionar por piedra
     public void evolucionarPorPiedra() throws SQLException {
         // Obtener la instancia del manager de piedras evolutivas
         PiedraEvolutivaManager manager = PiedraEvolutivaManager.getInstance();
@@ -122,12 +130,12 @@ public class Pokemon {
             return;
         }
 
-        // Llamar al método para evolucionar con la piedra seleccionada
+        // Llamar al metodo para evolucionar con la piedra seleccionada
         evolucionarConSeleccion(piedraSeleccionada.getNombre());
     }
 
 
-    // Método para entrenar y verificar evolución por nivel
+    // Metodo para entrenar y verificar evolución por nivel
     public void entrenar() throws SQLException, InterruptedException  {
         Scanner scanner = new Scanner(System.in);
         float tiempoEsperaEnSegundos = 0.22f;
@@ -175,7 +183,7 @@ public class Pokemon {
         pokemonDAO.GuardarNivel(this);
     }
 
-    // Método genérico para evolucionar con selección
+    // Metodo genérico para evolucionar con selección
     private void evolucionarConSeleccion(String piedraNombre) throws SQLException {
         EvolucionDAO evoDAO = new EvolucionDAO();
         ArrayList<String> especies = evoDAO.obtenerSiguientesEvoluciones(this.especie);
@@ -199,7 +207,7 @@ public class Pokemon {
         }
     }
 
-    // Método para seleccionar la especie de evolución (maneja una o múltiples opciones)
+    // Metodo para seleccionar la especie de evolución (maneja una o múltiples opciones)
     private String seleccionarEvolucion(ArrayList<String> especies) {
         if (especies.size() == 1) {
             return especies.get(0);
@@ -219,6 +227,13 @@ public class Pokemon {
         } else {
             System.out.println("Selección inválida.");
             return null;
+        }
+    }
+
+    public void recibirDano(int dano) {
+        salud -= dano;
+        if (salud < 0) {
+            salud = 0;
         }
     }
 

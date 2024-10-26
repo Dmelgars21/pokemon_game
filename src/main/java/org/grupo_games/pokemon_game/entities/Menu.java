@@ -4,6 +4,7 @@
  */
 package org.grupo_games.pokemon_game.entities;
 
+import org.grupo_games.pokemon_game.daos.EntrenadorDAO;
 import org.grupo_games.pokemon_game.daos.PokedexDAO;
 import org.grupo_games.pokemon_game.daos.PokemonDAO;
 
@@ -19,6 +20,7 @@ public class Menu {
     boolean salir = false;
     private Mochila mochila;
     private Entrenador session_entrenador;
+    private Batalla batalla;
 
     public Menu(Entrenador entrenador) throws SQLException {
         this.session_entrenador = entrenador;
@@ -46,6 +48,12 @@ public class Menu {
                     break;
                 case 2:
                     System.out.println("--2. Comenzando Batalla");
+                    int entrenador_id2 = scanner.nextInt();
+                    EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
+                    entrenadorDAO.obtenerEntrenadorId(entrenador_id2);
+
+                    Batalla batalla = new Batalla(session_entrenador, session_entrenador);
+                    batalla.iniciarBatalla();
                     break;
                 case 3:
                     System.out.println("--3. Ganar Experiencia, campo para entrenar...");

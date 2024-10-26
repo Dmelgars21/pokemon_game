@@ -87,6 +87,10 @@ public class PokemonDAO extends BaseDAO {
         }
     }
 
+    public void ObtenerHabilidadesPokemones() throws SQLException {
+
+    }
+
 
     public void ObtenerPokemonsAsociadosEntrenador(int entrenador_id, ArrayList<Pokemon> lista_pokemones) throws SQLException {
         String sql = "SELECT " +
