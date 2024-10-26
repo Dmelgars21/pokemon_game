@@ -24,6 +24,6 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3307/pokemon_game", "root", "2103");
+        return DriverManager.getConnection(url, username, password);
     }
 }

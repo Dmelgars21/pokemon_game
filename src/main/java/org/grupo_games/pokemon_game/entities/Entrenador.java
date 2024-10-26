@@ -9,45 +9,63 @@ public class Entrenador {
     private String nombre;
     private String pueblo_origen;
     private User user;
-    private ArrayList<Pokemon> pokemones = new ArrayList();
+    private ArrayList<Pokemon> pokemones;
+    private Mochila mochila;
+    private Scanner scanner;
 
     public Entrenador(String nombre, String pueblo_origen, User user) {
         this.nombre = nombre;
         this.pueblo_origen = pueblo_origen;
         this.user = user;
+        this.pokemones = new ArrayList<>();
+        this.mochila = new Mochila(user.getId());//MOCHILA CON limite de 10 objetos
+        this.scanner = new Scanner(System.in);
     }
 
+   
+     public String getNombre() {
+        return nombre;
+    }
     public String getPuebloOrigen() {
         return pueblo_origen;
+        
     }
-
-    public void setPuebloOrigen(String pueblo_origen) {
-        this.pueblo_origen = pueblo_origen;
-    }
-
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getUsuarioId(){
+     public int getUsuarioId(){
         return user.getId();
     }
 
     public Pokemon getPokemonId(int id) {
         return this.pokemones.get(id);
     }
+
+    public ArrayList<Pokemon> getPokemones() {
+        return pokemones;
+    }
+
+    public Mochila getMochila() {
+        return mochila;
+    }
+    
+
+    public void setPuebloOrigen(String pueblo_origen) {
+        this.pueblo_origen = pueblo_origen;
+    }
+
+    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+   
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
 
     public void agregarNuevoPokemon(Pokemon pokemon) {
         pokemones.add(pokemon);
@@ -56,9 +74,9 @@ public class Entrenador {
     }
 
     public void entrenarPokemon() {
-        Scanner sc = new Scanner(System.in);
+        
         System.out.println("Ingresa el ID del pokemon que quieres entrenar");
-        int pokemon_id = sc.nextInt();
+        int pokemon_id = scanner.nextInt();
 
         Pokemon pokemon_a_entrenar = pokemones.get(pokemon_id);
 

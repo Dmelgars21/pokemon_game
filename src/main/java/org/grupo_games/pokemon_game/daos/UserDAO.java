@@ -3,10 +3,70 @@ package org.grupo_games.pokemon_game.daos;
 import org.grupo_games.pokemon_game.db.BaseDAO;
 import org.grupo_games.pokemon_game.entities.Entrenador;
 import org.grupo_games.pokemon_game.entities.User;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import java.sql.*;
 
 public class UserDAO extends BaseDAO {
+   
+    public int getId(String username) throws SQLException {
+    String sql = "SELECT id FROM Usuario WHERE username = ?";
+    int userId = -1; // Valor por defecto si no se encuentra el usuario
+
+    try (Connection connection = obtenerConexion();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, username);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            userId = resultSet.getInt("id");
+        }
+    }
+
+    return userId; // Retorna -1 si no se encuentra el usuario
+}
+
+   
+    
+    public Entrenador validarUsuario(String username) {
+        String query = "SELECT * FROM Usuario WHERE username = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int entrenadorId = rs.getInt("entrenador_id");
+                // Aquí debes cargar el entrenador correspondiente
+                EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
+                return entrenadorDAO.obtenerEntrenadorPorId(entrenadorId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Usuario no encontrado
+    }
+    
+    public boolean crearUsuario(String username) {
+        String query = "INSERT INTO Usuario (username) VALUES (?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, username);
+            return stmt.executeUpdate() > 0; // Retorna true si se creó
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Error al crear usuario
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // Método para agregar un nuevo User
     public int agregarUser(User user) throws SQLException {
