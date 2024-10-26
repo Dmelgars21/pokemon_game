@@ -11,13 +11,13 @@ import java.sql.*;
 
 public class UserDAO extends BaseDAO {
    
-    public int getId(String username) throws SQLException {
+    public int getId(User user) throws SQLException {
     String sql = "SELECT id FROM Usuario WHERE username = ?";
-    int userId = -1; // Valor por defecto si no se encuentra el usuario
+    int userId = -1;
 
     try (Connection connection = obtenerConexion();
          PreparedStatement statement = connection.prepareStatement(sql)) {
-        statement.setString(1, username);
+        statement.setString(1, user.getUsername());
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
@@ -30,15 +30,16 @@ public class UserDAO extends BaseDAO {
 
    
     
-    public Entrenador validarUsuario(String username) {
-        String query = "SELECT * FROM Usuario WHERE username = ?";
+    public Entrenador validarUsuario(String username, String password) throws SQLException {
+        String query = "SELECT id FROM Usuario WHERE username = ? AND password = ?";
         
         try (Connection connection =obtenerConexion();
             PreparedStatement stmt = connection.prepareStatement(query)){
             stmt.setString(1, username);
+            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                int entrenadorId = rs.getInt("entrenador_id");
+                int entrenadorId = rs.getInt("id");
                 // Aquí debes cargar el entrenador correspondiente
                 EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
                 return entrenadorDAO.obtenerEntrenadorId(entrenadorId);
@@ -49,11 +50,13 @@ public class UserDAO extends BaseDAO {
         return null; // Usuario no encontrado
     }
     
-    public boolean crearUsuario(String username) {
-        String query = "INSERT INTO Usuario (username) VALUES (?)";
+    public boolean crearUsuario(User user) {
+        String query = "INSERT INTO Usuario (username, password) VALUES (?, ?)";
         try (Connection connection =obtenerConexion();
                 PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, username);
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

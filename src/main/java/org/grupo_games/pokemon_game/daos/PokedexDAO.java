@@ -26,7 +26,6 @@ public class PokedexDAO extends BaseDAO {
              ResultSet resultSet = statement.executeQuery()) {
 
             System.out.println("Lista de todos los Pokémon:");
-            System.out.println("----------------------------");
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -35,7 +34,8 @@ public class PokedexDAO extends BaseDAO {
                 int salud = resultSet.getInt("salud");
 
                 // Muestra cada Pokémon en la consola
-                System.out.println("ID: " + id + " | Nombre: " + apodo + " | Nivel: " + nivel + " | Salud: " + salud);
+                System.out.println("----------------------------");
+                System.out.println("ID: " + id + "\nNombre: " + apodo + "\nNivel: " + nivel + "\nSalud: " + salud);
             }
         }
     }

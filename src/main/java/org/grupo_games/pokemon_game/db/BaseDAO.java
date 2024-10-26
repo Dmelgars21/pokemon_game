@@ -34,6 +34,6 @@ public class BaseDAO {
     }
 
     protected Connection obtenerConexion() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/pokemon_game", "root", "mireya12");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3307/pokemon_game", "root", "2103");
     }
 }

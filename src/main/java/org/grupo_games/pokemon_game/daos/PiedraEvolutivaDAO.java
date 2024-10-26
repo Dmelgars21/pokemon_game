@@ -13,6 +13,25 @@ import java.util.ArrayList;
 
 public class PiedraEvolutivaDAO extends BaseDAO {
 
+    public void obtenerPiedrasEvolutivas(ArrayList<PiedraEvolutiva> piedrasEvolutivas) {
+        String sql = "SELECT id, nombre FROM PiedraEvolutiva;";
+
+        try (Connection connection = obtenerConexion();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nombre = resultSet.getString("nombre");
+                piedrasEvolutivas.add(new PiedraEvolutiva(id, nombre));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener las piedras evolutivas: " + e.getMessage());
+        }
+    }
+
     public int obtenerPiedraIdSegunNombre(String nombrePiedra) {
         String sql = "SELECT id FROM PiedraEvolutiva WHERE nombre = ?;";
 

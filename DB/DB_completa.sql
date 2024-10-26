@@ -483,14 +483,19 @@ INSERT INTO Item (nombre, id_tipo_categoria) VALUES
 ('Piedra Fantasia',2); -- Hada
 
 ALTER TABLE Mochila
-ADD COLUMN items INT;
-
-INSERT INTO Entrenador (nombre, pueblo_origen,usuario_id) VALUES ('Ash Ketchum', 'Pueblo Paleta', 1);
+    ADD COLUMN items INT;
 
 ALTER TABLE Mochila
+    DROP COLUMN nombre;
+
+ALTER TABLE Mochila
+    ADD COLUMN limite INT;
+
+# INSERT INTO Entrenador
+# ALTER TABLE Mochila (nombre, pueblo_origen,usuario_id) VALUES ('Ash Ketchum', 'Pueblo Paleta', 1);
+
 MODIFY COLUMN items INT DEFAULT 0;
  -- Asignar una mochila al primer entrenador
-INSERT INTO Mochila (entrenador_id, nombre, items) VALUES (1, 'Mochila Principal', 5);
 
 ALTER TABLE Usoitem
 RENAME COLUMN resultado TO cantidad_usada;
@@ -499,3 +504,15 @@ ALTER TABLE Usoitem
 MODIFY COLUMN cantidad_usada INT;
 
 INSERT INTO UsoItem (item_id, entrenador_id, cantidad_usada) VALUES (1, 1, 1);
+
+CREATE TABLE RegistroDeCaptura (
+   id INT NOT NULL AUTO_INCREMENT,
+   entrenador_id INT NOT NULL,
+   pokemon_id INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (entrenador_id) REFERENCES Entrenador (id),
+   FOREIGN KEY (pokemon_id) REFERENCES Pokemon (id)
+);
+
+ALTER TABLE RegistroDeCaptura
+    ADD COLUMN vinculado BOOLEAN;

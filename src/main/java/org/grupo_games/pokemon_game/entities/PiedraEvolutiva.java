@@ -10,14 +10,24 @@ public class PiedraEvolutiva extends Objeto {
     private int id;
     private ArrayList<String> tipoPokemon;
 
-    public PiedraEvolutiva(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public PiedraEvolutiva(int id, String nombre) {
+        super(nombre, "");
+        this.id = id;
         tipoPokemon = new ArrayList<>();
 
         PiedraEvolutivaDAO piedraEvolutivaDAO = new PiedraEvolutivaDAO();
         this.id = piedraEvolutivaDAO.obtenerPiedraIdSegunNombre(nombre);
         this.tipoPokemon = piedraEvolutivaDAO.obtenerTipoPokemonSegunNombrePiedra(nombre);
     }
+
+//    public PiedraEvolutiva(String nombre, String descripcion) {
+//        super(nombre, descripcion);
+//        tipoPokemon = new ArrayList<>();
+//
+//        PiedraEvolutivaDAO piedraEvolutivaDAO = new PiedraEvolutivaDAO();
+//        this.id = piedraEvolutivaDAO.obtenerPiedraIdSegunNombre(nombre);
+//        this.tipoPokemon = piedraEvolutivaDAO.obtenerTipoPokemonSegunNombrePiedra(nombre);
+//    }
 
     public int getId() {
         return id;

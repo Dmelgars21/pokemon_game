@@ -17,7 +17,7 @@ public class MochilaDAO extends BaseDAO {
         String query = "INSERT INTO Mochila (entrenador_id, limite) VALUES (?, ?)";
 
         try (Connection connection = obtenerConexion();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, entrenadorId);
             ps.setInt(2, limite);
