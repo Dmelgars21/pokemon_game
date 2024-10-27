@@ -31,6 +31,7 @@ public class Pokemon {
         this.especie = especie;
         this.nivel = nivel;
         this.salud = salud;
+        this.habilidades = new ArrayList<>();
     }
 
 
@@ -236,6 +237,13 @@ public class Pokemon {
             salud = 0;
         }
     }
+
+    public void agregarHabilidad(Habilidad habilidad) {
+        if (habilidad != null) {
+            habilidades.add(habilidad);
+        }
+    }
+
 
     @Override
     public String toString() {

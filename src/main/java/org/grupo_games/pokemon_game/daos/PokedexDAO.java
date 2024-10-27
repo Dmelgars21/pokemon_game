@@ -19,7 +19,10 @@ public class PokedexDAO extends BaseDAO {
     // Método para eliminar un Pokémon por su ID
 
     public void mostrarTodosLosPokemones() throws SQLException {
-        String sql = "SELECT * FROM Pokemon";
+        String sql = "SELECT es.nombre AS 'Especie', " +
+                "tp.nombre AS 'Tipo' " +
+                "FROM Especie es " +
+                "INNER JOIN Tipo tp ON es.tipo_id = tp.id;";
 
         try (Connection connection = obtenerConexion();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -28,14 +31,12 @@ public class PokedexDAO extends BaseDAO {
             System.out.println("Lista de todos los Pokémon:");
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String apodo = resultSet.getString("apodo");
-                int nivel = resultSet.getInt("nivel");
-                int salud = resultSet.getInt("salud");
+                String nombre = resultSet.getString("Especie");
+                String tipo = resultSet.getString("Tipo");
 
                 // Muestra cada Pokémon en la consola
                 System.out.println("----------------------------");
-                System.out.println("ID: " + id + "\nNombre: " + apodo + "\nNivel: " + nivel + "\nSalud: " + salud);
+                System.out.println("Nombre: " + nombre + "\nTipo: " + tipo);
             }
         }
     }

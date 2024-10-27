@@ -51,8 +51,8 @@ public class Menu {
                     int entrenador_id2 = scanner.nextInt();
                     EntrenadorDAO entrenadorDAO = new EntrenadorDAO();
                     entrenadorDAO.obtenerEntrenadorId(entrenador_id2);
-
                     Batalla batalla = new Batalla(session_entrenador, session_entrenador);
+                    batalla.seleccionarPokemon(session_entrenador);
                     batalla.iniciarBatalla();
                     break;
                 case 3:
@@ -67,7 +67,6 @@ public class Menu {
                 case 5:
                     System.out.println("--5. Revisando Mochila");
                     mochila.gestionarMochila();
-
                     break;
                 case 6:
                     System.out.println("--6. Evolucionar Pokemon");

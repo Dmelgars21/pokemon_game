@@ -44,7 +44,7 @@ public class Batalla {
     }
 
     // Metodo para seleccionar un Pokémon del entrenador (aquí se selecciona el primero de la lista)
-    private Pokemon seleccionarPokemon(Entrenador entrenador) {
+    public Pokemon seleccionarPokemon(Entrenador entrenador) {
         System.out.println(entrenador.getNombre() + " selecciona su primer Pokémon.");
         return entrenador.getPokemonId(0);  // Puedes cambiar la lógica para seleccionar Pokémon
     }
@@ -56,24 +56,36 @@ public class Batalla {
         // Selecciona una habilidad del Pokémon de manera aleatoria
         Habilidad habilidadSeleccionada = seleccionarHabilidad(pokemonActivo);
 
-        // Aplica la habilidad al Pokémon oponente
-        aplicarHabilidad(pokemonActivo, habilidadSeleccionada, pokemonOponente);
+        // Verifica si se seleccionó una habilidad válida
+        if (habilidadSeleccionada != null) {
+            // Aplica la habilidad al Pokémon oponente
+            aplicarHabilidad(pokemonActivo, habilidadSeleccionada, pokemonOponente);
 
-        // Verifica si el Pokémon oponente ha sido derrotado
-        if (pokemonOponente.getSalud() <= 0) {
-            System.out.println(pokemonOponente.getApodo() + " ha sido derrotado!");
-            finalizarBatalla(entrenador);
+            // Verifica si el Pokémon oponente ha sido derrotado
+            if (pokemonOponente.getSalud() <= 0) {
+                System.out.println(pokemonOponente.getApodo() + " ha sido derrotado!");
+                finalizarBatalla(entrenador);
+            }
+        } else {
+            System.out.println(pokemonActivo.getApodo() + " no tiene habilidades disponibles para usar.");
         }
     }
+
 
     // Metodo que selecciona una habilidad de forma aleatoria (esto se puede mejorar)
     private Habilidad seleccionarHabilidad(Pokemon pokemon) {
         Random rand = new Random();
-        // Aquí asumimos que el Pokémon tiene una lista de habilidades, seleccionamos una aleatoria
-        int indiceHabilidad = rand.nextInt(pokemon.getHabilidades().size());
-        Habilidad habilidadSeleccionada = pokemon.getHabilidades().get(indiceHabilidad);
-        System.out.println(pokemon.getApodo() + " usa " + habilidadSeleccionada.getNombre());
-        return habilidadSeleccionada;
+        int numHabilidades = pokemon.getHabilidades().size();
+
+        if (numHabilidades > 0) {
+            int indiceHabilidad = rand.nextInt(numHabilidades);
+            Habilidad habilidadSeleccionada = pokemon.getHabilidades().get(indiceHabilidad);
+            System.out.println(pokemon.getApodo() + " usa " + habilidadSeleccionada.getNombre());
+            return habilidadSeleccionada;
+        } else {
+            System.out.println(pokemon.getApodo() + " no tiene habilidades disponibles.");
+            return null; // O maneja este caso según tu lógica
+        }
     }
 
     //Metodo que aplica la habilidad seleccionada al Pokémon oponente

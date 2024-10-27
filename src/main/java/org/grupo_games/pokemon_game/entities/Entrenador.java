@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Entrenador {
     private int id;
     private String nombre;
-    private String pueblo_origen;
+     String pueblo_origen;
     private User user;
     private ArrayList<Pokemon> pokemones;
     private Mochila mochila;
@@ -77,6 +77,7 @@ public class Entrenador {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 
     public void agregarNuevoPokemon(Pokemon pokemon) {
         pokemones.add(pokemon);
